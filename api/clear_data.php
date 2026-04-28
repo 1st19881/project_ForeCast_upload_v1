@@ -22,7 +22,7 @@ if (!$conn) {
 }
 
 // Physically delete records for the selected plant
-$deleteSql = "DELETE FROM WEB.FC_FORECAST WHERE PLANT = :plant";
+$deleteSql = "DELETE FROM WEB.FC_CUST_FORECAST WHERE PLANT = :plant";
 $stid = oci_parse($conn, $deleteSql);
 oci_bind_by_name($stid, ':plant', $plant);
 

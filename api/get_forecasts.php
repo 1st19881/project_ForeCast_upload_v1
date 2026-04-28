@@ -33,7 +33,7 @@ if (!empty($search)) {
 }
 
 // 1. Get Total Count for Pagination
-$countSql = "SELECT COUNT(*) as TOTAL FROM WEB.FC_FORECAST $where";
+$countSql = "SELECT COUNT(*) as TOTAL FROM WEB.FC_CUST_FORECAST $where";
 $countStid = oci_parse($conn, $countSql);
 foreach ($params as $key => $val) {
     oci_bind_by_name($countStid, $key, $params[$key]);
@@ -52,7 +52,7 @@ $sql = "SELECT * FROM (
                     FORECAST_QTY, 
                     CUSTOMER_ISSUE_DATE, 
                     TO_CHAR(CREATED_AT, 'DD/MM/YYYY HH24:MI:SS') as CREATED_AT
-                FROM WEB.FC_FORECAST
+                FROM WEB.FC_CUST_FORECAST
                 $where
                 ORDER BY PART_NO ASC, FORECAST_DATE ASC
             ) a WHERE ROWNUM <= :end_row

@@ -18,12 +18,15 @@
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg);
-            height: 100vh;
+            min-height: 100vh;
+            min-height: 100svh;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
+            padding: 1rem;
         }
 
         .login-container {
@@ -98,6 +101,38 @@
             box-shadow: 0 0 0 4px rgba(227, 6, 19, 0.1);
         }
 
+        .password-wrap {
+            position: relative;
+        }
+
+        .password-wrap .form-control {
+            padding-right: 3rem;
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 0.85rem;
+            transform: translateY(-50%);
+            width: 2rem;
+            height: 2rem;
+            border: 0;
+            background: transparent;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: 0.2s;
+        }
+
+        .toggle-password:hover,
+        .toggle-password:focus {
+            color: var(--primary);
+            background: rgba(227, 6, 19, 0.08);
+            outline: none;
+        }
+
         .btn-login {
             width: 100%;
             background: var(--primary);
@@ -122,6 +157,27 @@
             color: #94a3b8;
             font-size: 0.8rem;
         }
+
+        @media (max-width: 575.98px) {
+            body {
+                align-items: flex-start;
+                padding: 1rem .85rem;
+            }
+
+            .login-container {
+                padding: 1.5rem;
+                border-radius: 18px;
+                margin: 1rem 0;
+            }
+
+            p.subtitle {
+                margin-bottom: 1.75rem;
+            }
+
+            .copyright {
+                margin-top: 2rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -140,7 +196,12 @@
         </div>
         <div class="mb-4">
             <label class="form-label">PASSWORD</label>
-            <input type="password" class="form-control" name="password" id="password" placeholder="••••••••" required>
+            <div class="password-wrap">
+                <input type="password" class="form-control" name="password" id="password" placeholder="••••••••" required>
+                <button type="button" class="toggle-password" id="togglePassword" aria-label="Show password" aria-pressed="false">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
         </div>
 
         <button type="submit" class="btn-login" id="btnLogin">
@@ -156,6 +217,18 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
+        $('#togglePassword').on('click', function() {
+            const passwordInput = $('#password');
+            const icon = $(this).find('i');
+            const isHidden = passwordInput.attr('type') === 'password';
+
+            passwordInput.attr('type', isHidden ? 'text' : 'password');
+            icon.toggleClass('fa-eye', !isHidden).toggleClass('fa-eye-slash', isHidden);
+            $(this)
+                .attr('aria-label', isHidden ? 'Hide password' : 'Show password')
+                .attr('aria-pressed', isHidden ? 'true' : 'false');
+        });
+
         $('#loginForm').submit(function(e) {
             e.preventDefault();
             

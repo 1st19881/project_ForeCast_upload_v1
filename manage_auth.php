@@ -60,6 +60,27 @@ $fullname = $_SESSION['fullname'] ?? '';
 
         .badge-admin { background: #fee2e2; color: #991b1b; }
         .badge-user { background: #dcfce7; color: #166534; }
+
+        @media (max-width: 767.98px) {
+            .header-section {
+                align-items: flex-start !important;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .header-section .btn {
+                width: 100%;
+            }
+
+            .modal-dialog {
+                margin: .75rem;
+            }
+
+            .modal-body,
+            .modal-header {
+                padding: 1.25rem !important;
+            }
+        }
     </style>
 </head>
 <body>

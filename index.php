@@ -207,6 +207,60 @@ if (!isset($_SESSION['user_code'])) {
         @media (max-width: 1200px) {
             .upload-grid { grid-template-columns: 1fr; }
         }
+
+        @media (max-width: 991.98px) {
+            .main-wrapper {
+                padding: 5rem 1rem 1.25rem;
+            }
+
+            .dashboard-header {
+                align-items: flex-start !important;
+                flex-direction: column;
+                gap: 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .dashboard-header h1 {
+                font-size: 2rem;
+            }
+
+            .premium-card {
+                padding: 1.25rem;
+                border-radius: 20px;
+            }
+
+            .premium-card .card-body {
+                padding: 1rem !important;
+            }
+
+            .drop-zone {
+                height: 260px;
+                margin: 1.5rem 0;
+            }
+
+            .drop-zone i {
+                font-size: 3.5rem;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .main-wrapper {
+                padding-left: .85rem;
+                padding-right: .85rem;
+            }
+
+            .dashboard-header h1 {
+                font-size: 1.75rem;
+            }
+
+            .drop-zone {
+                height: 220px;
+            }
+
+            .select2-container--bootstrap-5 .select2-selection {
+                min-height: 52px;
+            }
+        }
     </style>
 </head>
 <body>

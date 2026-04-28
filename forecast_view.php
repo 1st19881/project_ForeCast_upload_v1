@@ -21,6 +21,14 @@ if (!isset($_SESSION['user_code'])) {
     <link rel="stylesheet" href="css/sidebar.css">
     <style>
         .main-wrapper { transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .content-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .dashboard-header h1 {
+            font-size: 2.25rem;
+            line-height: 1.15;
+        }
         .analytics-card {
             background: white;
             border-radius: 24px;
@@ -77,6 +85,8 @@ if (!isset($_SESSION['user_code'])) {
         .forecast-grid {
             background: #f8fafc;
             border-radius: 12px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
         }
         .forecast-unit {
             background: white;
@@ -103,6 +113,131 @@ if (!isset($_SESSION['user_code'])) {
         }
         .part-analysis-block {
             border-left: 6px solid #e30613;
+            overflow: hidden;
+        }
+        .part-heading {
+            min-width: 0;
+        }
+        .part-icon {
+            flex: 0 0 auto;
+        }
+        .part-title {
+            min-width: 0;
+        }
+        .part-title h3,
+        .part-title p {
+            overflow-wrap: anywhere;
+        }
+
+        @media (max-width: 991.98px) {
+            .content-container {
+                max-width: none;
+                width: 100%;
+            }
+
+            .dashboard-header {
+                margin-bottom: 1.25rem !important;
+            }
+
+            .dashboard-header h1 {
+                font-size: 1.65rem;
+            }
+
+            .dashboard-header p {
+                font-size: .95rem;
+            }
+
+            .analytics-card {
+                border-radius: 16px;
+                padding: 1rem;
+                margin-bottom: 1.25rem;
+            }
+
+            #btnSearch {
+                padding-top: .85rem !important;
+                padding-bottom: .85rem !important;
+            }
+
+            #welcomeMessage {
+                padding: 3rem 1rem !important;
+            }
+
+            #welcomeMessage .fa-6x {
+                font-size: 4rem;
+            }
+
+            .part-analysis-block {
+                border-left-width: 4px;
+                border-radius: 16px !important;
+                margin-bottom: 1.5rem !important;
+                padding: 1rem !important;
+            }
+
+            .part-heading {
+                align-items: flex-start !important;
+                gap: .75rem;
+                margin-bottom: 1rem !important;
+                padding-bottom: 1rem !important;
+            }
+
+            .part-icon {
+                border-radius: 14px !important;
+                margin-right: 0 !important;
+                padding: .75rem !important;
+            }
+
+            .part-icon i {
+                font-size: 1.25rem !important;
+            }
+
+            .part-title h3 {
+                font-size: 1.15rem;
+                line-height: 1.25;
+            }
+
+            .part-title p {
+                font-size: .9rem;
+                line-height: 1.35;
+            }
+
+            .part-analysis-block h6 {
+                font-size: .9rem;
+            }
+
+            .forecast-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                padding: .5rem !important;
+            }
+
+            .forecast-unit {
+                min-width: 0;
+                width: 100%;
+                box-shadow: none !important;
+            }
+
+            .unit-date {
+                font-size: .68rem;
+                padding: .45rem .25rem;
+            }
+
+            .unit-qty {
+                font-size: .85rem;
+                padding: .6rem .25rem;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .dashboard-header h1 {
+                font-size: 1.45rem;
+            }
+
+            .analytics-card {
+                padding: .85rem;
+            }
+
+            .forecast-grid {
+                gap: .4rem !important;
+            }
         }
     </style>
 </head>
@@ -120,7 +255,7 @@ if (!isset($_SESSION['user_code'])) {
         <!-- Filter Panel -->
         <div class="analytics-card">
             <div class="row g-3">
-                <div class="col-md-3">
+                <div class="col-12 col-lg-3">
                     <label class="form-label small fw-bold text-secondary">PLANT</label>
                     <select class="form-select form-select-lg rounded-4 border-0 bg-light" id="plantSelect">
                         <option value="1101">SAAB (1101)</option>
@@ -135,13 +270,13 @@ if (!isset($_SESSION['user_code'])) {
                         <option value="1300">SRDC (1300)</option>
                     </select>
                 </div>
-                <div class="col-md-7">
+                <div class="col-12 col-lg-7">
                     <label class="form-label small fw-bold text-secondary">PART NUMBER SEARCH (Optional)</label>
                     <select class="form-select" id="partSelect" data-placeholder="Type Part Number or Name...">
                         <option></option>
                     </select>
                 </div>
-                <div class="col-md-2 d-flex align-items-end">
+                <div class="col-12 col-lg-2 d-flex align-items-end">
                     <button class="btn btn-dark w-100 py-3 rounded-4 shadow-sm fw-bold" id="btnSearch">
                         <i class="fas fa-search me-2"></i> EXPLORE
                     </button>
@@ -222,11 +357,11 @@ $(document).ready(function() {
                 res.data.forEach((p, index) => {
                     const partSection = $(`
                         <div class="part-analysis-block mb-5 p-4 bg-white rounded-4 shadow-sm border anim-fade-up">
-                            <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
-                                <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-4 me-3">
+                            <div class="part-heading d-flex align-items-center mb-4 pb-3 border-bottom">
+                                <div class="part-icon bg-primary bg-opacity-10 text-primary p-3 rounded-4 me-3">
                                     <i class="fas fa-cube fa-2x"></i>
                                 </div>
-                                <div>
+                                <div class="part-title">
                                     <h3 class="fw-bold mb-0 text-dark">${p.part_info.PART_NO}</h3>
                                     <p class="text-secondary mb-0">${p.part_info.PART_NAME}</p>
                                 </div>
@@ -250,7 +385,8 @@ $(document).ready(function() {
                     renderTable(`week_container_${index}`, p.weekly);
                 });
 
-                $('html, body').animate({ scrollTop: resultsContainer.offset().top - 50 }, 500);
+                const scrollOffset = window.matchMedia('(max-width: 991.98px)').matches ? 80 : 50;
+                $('html, body').animate({ scrollTop: Math.max(0, resultsContainer.offset().top - scrollOffset) }, 500);
             } else {
                 Swal.fire('Error', res.message, 'error');
                 $('#welcomeMessage').removeClass('d-none');
@@ -271,7 +407,7 @@ $(document).ready(function() {
             return;
         }
 
-        const grid = $('<div class="forecast-grid d-flex flex-wrap gap-2 p-2"></div>');
+        const grid = $('<div class="forecast-grid gap-2 p-2"></div>');
         
         records.forEach(r => {
             const unit = $(`

@@ -21,9 +21,11 @@ if (!isset($_SESSION['user_code'])) {
         /* Main Content Styling */
         .main-wrapper {
             flex-grow: 1;
-            margin-left: 260px;
+            margin-left: var(--sidebar-width);
             padding: 2rem;
-            width: calc(100% - 260px);
+            width: calc(100% - var(--sidebar-width));
+            max-width: 100%;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .page-header {
@@ -42,7 +44,11 @@ if (!isset($_SESSION['user_code'])) {
             display: flex;
             gap: 15px;
             align-items: flex-end;
+            flex-wrap: wrap;
         }
+
+        .filter-field-plant { width: 200px; }
+        .filter-field-size { width: 120px; }
 
         .content-card {
             background: white;
@@ -114,6 +120,64 @@ if (!isset($_SESSION['user_code'])) {
             color: #94a3b8;
         }
         .empty-state i { font-size: 4rem; opacity: 0.5; margin-bottom: 1rem; }
+
+        @media (max-width: 991.98px) {
+            .main-wrapper {
+                margin-left: 0 !important;
+                width: 100% !important;
+                padding: 5rem 1rem 1.25rem;
+            }
+
+            .page-header {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .page-header > .d-flex {
+                width: 100%;
+                flex-wrap: wrap;
+                gap: .5rem !important;
+            }
+
+            .filter-card {
+                align-items: stretch;
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .filter-field-plant,
+            .filter-field-size {
+                width: 100%;
+            }
+
+            .btn-action {
+                width: 100%;
+            }
+
+            .pagination-container {
+                align-items: flex-start !important;
+                flex-direction: column;
+                gap: .75rem;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .main-wrapper {
+                padding-left: .85rem;
+                padding-right: .85rem;
+            }
+
+            .table thead th,
+            .table tbody td {
+                padding: .85rem 1rem;
+                white-space: nowrap;
+            }
+
+            .empty-state {
+                padding: 64px 1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -143,7 +207,7 @@ if (!isset($_SESSION['user_code'])) {
 
     <!-- Filter Panel -->
     <div class="filter-card">
-        <div style="width: 200px;">
+        <div class="filter-field-plant">
             <label class="small fw-bold text-secondary mb-1">Manufacturing Plant</label>
             <select class="form-select" id="filterPlant">
                 <option value="">All Plants</option>
@@ -163,7 +227,7 @@ if (!isset($_SESSION['user_code'])) {
             <label class="small fw-bold text-secondary mb-1">Search Keywords</label>
             <input type="text" class="form-control" id="searchInput" placeholder="Search by Part Number or Name...">
         </div>
-        <div style="width: 120px;">
+        <div class="filter-field-size">
             <label class="small fw-bold text-secondary mb-1">Page Size</label>
             <select class="form-select" id="pageSize">
                 <option value="10">10 Rows</option>
@@ -245,7 +309,7 @@ if (!isset($_SESSION['user_code'])) {
             return;
         }
 
-        let html = '<table class="table"><thead><tr><th>Plant</th><th>Part Information</th><th>Type</th><th>Target Date</th><th class="text-end">Qty</th><th class="text-end">Created</th></tr></thead><tbody>';
+        let html = '<div class="table-responsive"><table class="table mb-0"><thead><tr><th>Plant</th><th>Part Information</th><th>Type</th><th>Target Date</th><th class="text-end">Qty</th><th class="text-end">Created</th></tr></thead><tbody>';
         data.forEach(row => {
             const label = row.FORECAST_TYPE === 'D' ? 'DAY' : (row.FORECAST_TYPE === 'W' ? 'WEEK' : row.FORECAST_TYPE);
             const badge = (row.FORECAST_TYPE === 'D' || row.FORECAST_TYPE === 'DAY') ? 'badge-day' : 'badge-week';
@@ -264,7 +328,7 @@ if (!isset($_SESSION['user_code'])) {
                 </tr>
             `;
         });
-        html += '</tbody></table>';
+        html += '</tbody></table></div>';
         $('#dataContent').html(html);
         $('#paginationArea').attr('style', 'display: flex !important');
     }

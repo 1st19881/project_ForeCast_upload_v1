@@ -21,7 +21,7 @@ forecast_saic/
 ├── debug_sap.php                # Diagnostic: ทดสอบ SAP customer query
 │
 ├── api/
-│   ├── process_upload.php       # อัปโหลด/parse Excel แล้ว insert/update WEB.FC_FORECAST
+│   ├── process_upload.php       # อัปโหลด/parse Excel แล้ว insert/update WEB.FC_CUST_FORECAST
 │   ├── get_forecasts.php        # ดึง Forecast records พร้อม pagination
 │   ├── get_part_list.php        # ดึง Part list สำหรับ Select2 autocomplete
 │   ├── get_part_forecast_detail.php  # ดึง Day/Week Forecast ของ Part
@@ -35,7 +35,7 @@ forecast_saic/
 │   └── sidebar.php              # Sidebar navigation แบบ shared component
 │
 ├── config/
-│   ├── conn.php                 # Forecast DB connection -> WEB.FC_FORECAST
+│   ├── conn.php                 # Forecast DB connection -> WEB.FC_CUST_FORECAST
 │   ├── database.php             # HRMS connection -> HRMS_AUTH
 │   ├── intra_db.php             # Intranet user connection -> intra.users
 │   └── erp_db.php               # SAP ERP connection -> ECCERP
@@ -58,7 +58,7 @@ forecast_saic/
 
 | Connection | Config | DB/SID | Schema/Table | ใช้สำหรับ |
 |---|---|---|---|---|
-| Forecast DB | `config/conn.php` | `INTRA01` | `WEB.FC_FORECAST` | ข้อมูล Forecast หลัก |
+| Forecast DB | `config/conn.php` | `INTRA01` | `WEB.FC_CUST_FORECAST` | ข้อมูล Forecast หลัก |
 | HRMS | `config/database.php` | `HRMS` | `HRMS_AUTH` | สิทธิ์ผู้ใช้งาน |
 | Intranet | `config/intra_db.php` | `SAGDB` | `intra.users` | Login และข้อมูลพนักงาน |
 | SAP ERP | `config/erp_db.php`, `get_customers_ajax.php`, `api/get_customers.php` | `ECCERP` | `sapsr3.VBAK`, `sapsr3.KNA1` | รายชื่อลูกค้าตาม Plant |
@@ -67,7 +67,7 @@ forecast_saic/
 
 ---
 
-## ตารางหลัก: `WEB.FC_FORECAST`
+## ตารางหลัก: `WEB.FC_CUST_FORECAST`
 
 | Column | Type | คำอธิบาย |
 |---|---|---|
@@ -441,7 +441,7 @@ Row 14+ : Data rows
 > `get_customers_ajax.php` เชื่อม SAP ด้วย `AL32UTF8` และตอบกลับเป็น plain text สำหรับ dropdown ในหน้า upload
 
 > **Clear Data**  
-> `api/clear_data.php` ใช้ `DELETE FROM WEB.FC_FORECAST WHERE PLANT = :plant` เป็นการลบถาวร ไม่มี undo
+> `api/clear_data.php` ใช้ `DELETE FROM WEB.FC_CUST_FORECAST WHERE PLANT = :plant` เป็นการลบถาวร ไม่มี undo
 
 > **Diagnostic Files**  
 > `debug_sap.php`, `check_type.php` และไฟล์ใน `tmp/` ใช้ตรวจสอบระบบ/connection ไม่ใช่ flow หลักของผู้ใช้ทั่วไป

@@ -212,7 +212,7 @@ if ($rows) {
         exit;
     }
 
-    $insertSql = "INSERT INTO WEB.FC_FORECAST (
+    $insertSql = "INSERT INTO WEB.FC_CUST_FORECAST (
                 FORECAST_ID, CUSTOMER_CODE, PLANT, PART_NO, PART_NAME, 
                 FORECAST_TYPE, FORECAST_DATE, FORECAST_QTY, FORECAST_STATUS, 
                 CUSTOMER_ISSUE_DATE, CREATED_BY
@@ -225,7 +225,7 @@ if ($rows) {
     $insStid = oci_parse($conn, $insertSql);
     
     // Pre-prepare a check statement to see if exact record exists
-    $checkSql = "SELECT COUNT(*) as CNT FROM WEB.FC_FORECAST 
+    $checkSql = "SELECT COUNT(*) as CNT FROM WEB.FC_CUST_FORECAST 
                  WHERE PLANT = :plant 
                    AND PART_NO = :part_no 
                    AND FORECAST_DATE = :f_date 
@@ -239,13 +239,13 @@ if ($rows) {
     $newCount = 0;
 
     // Pre-prepare statements
-    $checkExactSql = "SELECT COUNT(*) as CNT FROM WEB.FC_FORECAST 
+    $checkExactSql = "SELECT COUNT(*) as CNT FROM WEB.FC_CUST_FORECAST 
                       WHERE PLANT = :plant AND PART_NO = :part_no 
                         AND FORECAST_DATE = :f_date AND FORECAST_QTY = :f_qty 
                         AND FORECAST_TYPE = :f_type AND FORECAST_STATUS = 'A'";
     $checkExactStid = oci_parse($conn, $checkExactSql);
 
-    $checkExistsSql = "SELECT COUNT(*) as CNT FROM WEB.FC_FORECAST 
+    $checkExistsSql = "SELECT COUNT(*) as CNT FROM WEB.FC_CUST_FORECAST 
                        WHERE PLANT = :plant AND PART_NO = :part_no 
                          AND FORECAST_DATE = :f_date AND FORECAST_TYPE = :f_type AND FORECAST_STATUS = 'A'";
     $checkExistsStid = oci_parse($conn, $checkExistsSql);
@@ -295,7 +295,7 @@ if ($rows) {
         if ($rowExists['CNT'] > 0) {
             $updateCount++;
             // Deactivate old
-            $updSql = "UPDATE WEB.FC_FORECAST SET FORECAST_STATUS = 'X' 
+            $updSql = "UPDATE WEB.FC_CUST_FORECAST SET FORECAST_STATUS = 'X' 
                        WHERE PLANT = :plant AND PART_NO = :part_no AND FORECAST_DATE = :f_date 
                          AND FORECAST_TYPE = :f_type AND FORECAST_STATUS = 'A'";
             $updTmp = oci_parse($conn, $updSql);

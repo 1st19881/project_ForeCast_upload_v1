@@ -32,7 +32,7 @@ try {
     
     if (!empty($part_no)) {
         // Mode A: Single part
-        $sql_info = "SELECT DISTINCT PART_NO, PART_NAME FROM WEB.FC_FORECAST WHERE PLANT = :plant AND PART_NO = :part_no AND FORECAST_STATUS = 'A' AND ROWNUM = 1";
+        $sql_info = "SELECT DISTINCT PART_NO, PART_NAME FROM WEB.FC_CUST_FORECAST WHERE PLANT = :plant AND PART_NO = :part_no AND FORECAST_STATUS = 'A' AND ROWNUM = 1";
         $stmt_info = oci_parse($conn, $sql_info);
         oci_bind_by_name($stmt_info, ':plant', $plant);
         oci_bind_by_name($stmt_info, ':part_no', $part_no);
@@ -41,7 +41,7 @@ try {
         if ($info) $parts_to_process[] = $info;
     } else {
         // Mode B: All parts for plant (Limit to top 50 for stability)
-        $sql_all = "SELECT * FROM (SELECT DISTINCT PART_NO, PART_NAME FROM WEB.FC_FORECAST WHERE PLANT = :plant AND FORECAST_STATUS = 'A' ORDER BY PART_NO ASC) WHERE ROWNUM <= 50";
+        $sql_all = "SELECT * FROM (SELECT DISTINCT PART_NO, PART_NAME FROM WEB.FC_CUST_FORECAST WHERE PLANT = :plant AND FORECAST_STATUS = 'A' ORDER BY PART_NO ASC) WHERE ROWNUM <= 50";
         $stmt_all = oci_parse($conn, $sql_all);
         oci_bind_by_name($stmt_all, ':plant', $plant);
         oci_execute($stmt_all);
@@ -66,7 +66,7 @@ try {
         }
         
         // Fetch Daily
-        $sql_d = "SELECT FORECAST_DATE as F_DATE, FORECAST_QTY as F_QTY FROM WEB.FC_FORECAST 
+        $sql_d = "SELECT FORECAST_DATE as F_DATE, FORECAST_QTY as F_QTY FROM WEB.FC_CUST_FORECAST 
                   WHERE PLANT = :plant AND PART_NO = :pno AND FORECAST_TYPE = 'D' AND FORECAST_STATUS = 'A'
                   ORDER BY FORECAST_DATE ASC";
         $stmt_d = oci_parse($conn, $sql_d);
@@ -82,7 +82,7 @@ try {
         }
 
         // Fetch Weekly
-        $sql_w = "SELECT FORECAST_DATE as F_DATE, FORECAST_QTY as F_QTY FROM WEB.FC_FORECAST 
+        $sql_w = "SELECT FORECAST_DATE as F_DATE, FORECAST_QTY as F_QTY FROM WEB.FC_CUS_FORECAST 
                   WHERE PLANT = :plant AND PART_NO = :pno AND FORECAST_TYPE = 'W' AND FORECAST_STATUS = 'A'
                   ORDER BY FORECAST_DATE ASC";
         $stmt_w = oci_parse($conn, $sql_w);

@@ -32,7 +32,7 @@ try {
     // List unique parts for the selected plant using correct column names
     $sql = "SELECT * FROM (
                 SELECT PART_NO, MAX(PART_NAME) as PART_NAME
-                FROM WEB.FC_FORECAST 
+                FROM WEB.FC_CUST_FORECAST 
                 WHERE PLANT = :plant 
                 AND FORECAST_STATUS = 'A'
                 AND (UPPER(PART_NO) LIKE :q OR UPPER(PART_NAME) LIKE :q)
