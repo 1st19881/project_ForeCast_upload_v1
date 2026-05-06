@@ -36,6 +36,9 @@ $current_page = basename($_SERVER['PHP_SELF']);
         <a href="forecast_view.php" class="menu-item <?php echo ($current_page == 'forecast_view.php') ? 'active' : ''; ?>">
             <i class="fas fa-chart-line"></i><span>Forecast Analytics</span>
         </a>
+        <a href="report_custom.php" class="menu-item <?php echo ($current_page == 'report_custom.php') ? 'active' : ''; ?>">
+            <i class="fas fa-file-invoice"></i><span>Supplier Report</span>
+        </a>
 
         <?php if (isset($_SESSION['aut_level']) && $_SESSION['aut_level'] == 99): ?>
         <div class="menu-divider"></div>

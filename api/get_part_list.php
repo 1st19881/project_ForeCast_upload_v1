@@ -22,7 +22,7 @@ function formatPartNumber($partNo) {
 // ถ้าสิ่งที่พิมพ์มาเป็นตัวเลขล้วน ให้แปลงเป็นแบบ 18 หลักก่อนค้นหา
 $q_formatted = formatPartNumber($q);
 
-$conn = @oci_connect($SagUser, $SagPWD, $SagDB, $SagLang);
+$conn = @oci_connect($SagUser, $SagPWD, $SagDB, 'AL32UTF8');
 if (!$conn) {
     echo json_encode(['error' => 'Connection failed']);
     exit;
