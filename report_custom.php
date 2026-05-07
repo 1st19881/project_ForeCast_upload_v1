@@ -784,7 +784,7 @@ $(document).ready(function() {
             html += '<td style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">' + trimZerosJS(row.FG_PART_NO) + '</td>';
             html += '<td style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="' + row.FG_PART_NAME + '">' + row.FG_PART_NAME + '</td>';
             html += '<td class="text-end">' + row.FORECAST_QTY.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}) + '</td>';
-            html += '<td class="text-end">' + row.USAGE_QTY.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 4}) + '</td>';
+            html += '<td class="text-end">' + row.USAGE_QTY.toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4}) + '</td>';
             html += '<td class="text-end fw-bold">' + row.CONSUMP_QTY.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td>';
             html += '</tr>';
         });
